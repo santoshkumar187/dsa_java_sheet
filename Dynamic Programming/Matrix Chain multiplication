@@ -1,0 +1,35 @@
+/*
+Problem statement
+You are given ‘N’ 2-D matrices and an array/list “ARR” of length ‘N + 1’ where the first ‘N’ integers denote the number of rows in the Matrices and the last element denotes the number of columns of the last matrix. For each matrix, the number of columns is equal to the number of rows of the next matrix. You are supposed to find the minimum number of multiplication operations that need to be performed to multiply all the given matrices.
+
+Note :
+You don’t have to multiply the matrices, you only have to find the minimum number of multiplication operations.
+For Example :
+ARR = {2, 4, 3, 2}
+
+Here, we have three matrices with dimensions {2X4, 4X3, 3X2} which can be multiplied in the following ways:
+a. If the order of multiplication is (2X4, 4X3)(3X2), then the total number of multiplication operations that need to be performed are: (2*4*3) + (2*3*2) = 36
+b. If the order of multiplication is (2X4)(4X3, 3X2), then the total number of multiplication operations that need to be performed are  (2*4*2) + (4*3*2) = 40
+
+
+*/
+
+
+
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+	public static int matrixMultiplication(int[] arr , int N) {
+		int dp[][] = new int[N][N];
+		for(int len=2; len<N; len++) {
+			for(int row=0, col=len; row<N-len; row++, col++) {
+				dp[row][col] = Integer.MAX_VALUE;
+				for(int k=row+1; k<col; k++) {
+					dp[row][col] = Math.min(dp[row][col], dp[row][k]+dp[k][col]+arr[row]*arr[k]*arr[col]);
+				}
+			}
+		}
+		return dp[0][N-1];
+	}
+}

@@ -1,0 +1,66 @@
+/*
+Problem statement
+You are given a singly linked list of integers.
+Your task is to swap every two adjacent nodes, and return the head of the modified, linked list.
+
+For Example:
+We have a linked list 1->2->3->4->5->6->7 and so on. You are supposed to swap pairs of a linked list like swap (1,2), (3,4), (5,6), and so on.
+Note:
+1. You may not modify the data in the list’s nodes; only nodes themselves may be changed. Because imagine a case where a node contains many fields, so there will be too much unnecessary swap.
+2. If a pair of a node does not exist, then leave the node as it is.
+
+
+*/
+
+/*
+--
+
+- take a dummy and connect to head
+- start from dummy and point a new node temp.
+- take prev and curr, and point them to temp.next and temp.next.next
+- point temp to curr and update temp to prev.
+
+
+Here the 'temp act as pointer' which adopts the propity of the node which it points.
+
+--
+*/
+
+
+import java.util.* ;
+import java.io.*; 
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+	class Node {
+		int data;
+		Node next;
+
+		Node(int data) {
+		this.data = data;
+		this.next = null;
+	   }
+   }
+
+*****************************************************************/
+
+public class Solution {
+	public static Node pairsSwap(Node head) {
+		Node newHead = new Node(-1);
+		newHead.next = head;
+		Node temp = newHead;
+
+		while(temp.next != null && temp.next.next != null) {
+			Node prev = temp.next;
+			Node curr = prev.next;
+
+			prev.next = curr.next;
+			curr.next = prev;
+
+			temp.next = curr;
+			temp = prev;
+		}
+		return newHead.next;
+	}
+}

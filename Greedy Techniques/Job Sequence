@@ -1,0 +1,84 @@
+/*
+Problem statement
+You are given a 'Nx3' 2-D array 'Jobs' describing 'N' jobs where 'Jobs[i][0]' denotes the id of 'i-th' job, 'Jobs[i][1]' denotes the deadline of 'i-th' job, and 'Jobs[i][2]' denotes the profit associated with 'i-th job'.
+You will make a particular profit if you complete the job within the deadline associated with it. Each job takes 1 unit of time to be completed, and you can schedule only one job at a particular time.
+Return the number of jobs to be done to get maximum profit.
+
+Note :
+If a particular job has a deadline 'x', it means that it needs to be completed at any time before 'x'.
+Assume that the start time is 0.
+
+For Example :
+'N' = 3, Jobs = [[1, 1, 30], [2, 3, 40], [3, 2, 10]].
+All the jobs have different deadlines. So we can complete all the jobs.
+At time 0-1, Job 1 will complete.
+At time 1-2, Job 3 will complete.
+At time 2-3, Job 2 will complete.
+So our answer is [3 80].
+
+
+*/
+
+
+
+import java.util.*;
+
+public class Solution {
+    public static class Job {
+        int id;
+        int deadline;
+        int profit;
+
+        Job(int x, int y, int z) {
+            this.id = x;
+            this.deadline = y;
+            this.profit = z;
+        }
+    }
+
+    public static class JobComparator implements Comparator<Job> {
+        public int compare(Job a, Job b) {
+            return b.profit - a.profit;
+        }
+    }
+    public static int[] jobScheduling(int [][]jobs) {
+        int n = jobs.length;
+        Job[] jobPair = new Job[n];
+        for(int i=0; i<n; i++) {
+            jobPair[i] = new Job(jobs[i][0], jobs[i][1], jobs[i][2]);
+        }
+
+        Arrays.sort(jobPair, new JobComparator());
+
+        int jobProfit = 0;
+        int countJob = 0;
+        int maxDeadline = 0;
+
+        //find maximum deadline job
+        for(int i=0; i<n; i++) {
+            if(jobPair[i].deadline > maxDeadline) {
+                maxDeadline = jobPair[i].deadline;
+            }
+        }
+
+        int[] result = new int[maxDeadline + 1];
+        Arrays.fill(result, -1);
+
+        for(int i=0; i<n; i++) {
+            for(int j=jobPair[i].deadline; j>0; j--) {
+                if(result[j] == -1) {
+                    result[j] = i;
+                    countJob++;
+                    jobProfit += jobPair[i].profit;
+                    break;
+                }
+            }
+        }
+
+        int[] ans = new int[2];
+        ans[0] = countJob;
+        ans[1] = jobProfit;
+
+        return ans;
+    }
+}

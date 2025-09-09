@@ -1,0 +1,62 @@
+/*
+Problem statement
+You have been given a Binary Tree of integers. You are supposed to return the level order traversal of the given tree.
+
+For example:
+For the given binary tree
+The level order traversal will be {1,2,3,4,5,6,7}.
+
+
+*/
+
+
+
+import java.util.* ;
+import java.io.*; 
+/*
+
+	Following is the structure used to represent the Binary Tree Node
+
+	class BinaryTreeNode<T> {
+		T val;
+		BinaryTreeNode<T> left;
+		BinaryTreeNode<T> right;
+
+		public BinaryTreeNode(T val) {
+			this.val = val;
+			this.left = null;
+			this.right = null;
+		}
+	}
+
+*/
+
+import java.util.ArrayList;
+
+public class Solution {
+
+  	public static ArrayList<Integer> getLevelOrder(BinaryTreeNode root) {
+    	if(root == null) {
+			return new ArrayList<>();
+		}
+
+		ArrayList<Integer> arr = new ArrayList<>();
+		Queue<BinaryTreeNode> q = new LinkedList<>();
+
+		q.add(root);
+		BinaryTreeNode curr = null;
+
+		while(!q.isEmpty()) {
+			curr = q.poll();
+			arr.add(curr.val);
+			if(curr.left != null) {
+				q.add(curr.left);
+			}
+			if(curr.right != null) {
+				q.add(curr.right);
+			}
+		}
+
+		return arr;
+  	}
+}

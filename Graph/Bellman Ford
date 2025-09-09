@@ -1,0 +1,40 @@
+/*
+Problem statement
+You have been given a directed weighted graph of ‘N’ vertices labeled from 1 to 'N' and ‘M’ edges. Each edge connecting two nodes 'u' and 'v' has a weight 'w' denoting the distance between them.
+
+Your task is to calculate the shortest distance of all vertices from the source vertex 'src'.
+
+
+*/
+
+
+
+import java.util.List;
+public class Solution {
+
+    public static int max = (int)Math.pow(10,8);
+
+    public static int[] bellmonFord(int n, int m, int src, List<List<Integer>> edges) {
+        int[] distance = new int[n + 1];
+
+        for(int i=0; i<n+1; i++) {
+            distance[i] = max;
+        }
+
+        distance[src] = 0;
+
+        for(int i=0; i<n-1; i++) {
+            for(List<Integer> edge : edges) {
+                int u = edge.get(0);
+                int v = edge.get(1);
+                int w = edge.get(2);
+
+                if(distance[u] + w < distance[v]) {
+                    distance[v] = distance[u] + w;
+                }
+            }
+        }
+
+        return distance;
+    }
+}

@@ -1,0 +1,55 @@
+/*
+Problem statement
+Given a singly linked list of 'N' nodes. The objective is to determine the middle node of a singly linked list. However, if the list has an even number of nodes, we return the second middle node.
+
+Note:
+1. If the list is empty, the function immediately returns None because there is no middle node to find.
+2. If the list has only one node, then the only node in the list is trivially the middle node, and the function returns that node.
+
+-----------------
+*/
+
+
+/****************************************************************
+
+ Following is the class structure of the Node class:
+
+ class Node {
+     public int data;
+     public Node next;
+
+     Node()
+     {
+         this.data = 0;
+         this.next = null;
+     }
+     Node(int data)
+     {
+         this.data = data;
+         this.next = null;
+     }
+     Node(int data, Node next)
+     {
+         this.data = data;
+         this.next = next;
+     }
+ }
+
+ *****************************************************************/
+
+public class Solution
+{
+    public static Node findMiddle(Node head)
+    {
+        Node hare;
+        Node tortoise;
+        hare = head;
+        tortoise = head;
+
+        while(hare != null && hare.next != null) {
+            hare = hare.next.next;
+            tortoise = tortoise.next;
+        }
+        return tortoise;
+    }
+}

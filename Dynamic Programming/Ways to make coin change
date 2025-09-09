@@ -1,0 +1,34 @@
+/*
+Problem statement
+You are given an infinite supply of coins of each of denominations D = {D0, D1, D2, D3, ...... Dn-1}. You need to figure out the total number of ways W, in which you can make a change for value V using coins of denominations from D. Print 0, if a change isn't possible.
+
+
+*/
+
+
+
+import java.util.*;
+public class Solution {
+
+	public static long countWaysToMakeChange(int denominations[], int value) {
+        // Create a dp array to store the number of ways to make each value from 0 to value
+        long[] dp = new long[value + 1];
+        
+        // Base case: There is one way to make the value 0 (using no coins)
+        dp[0] = 1;
+
+        // Iterate through each denomination
+        for (int denom : denominations) {
+            for (int i=denom; i<=value; i++) {
+                dp[i] += dp[i - denom];
+            }
+        }
+
+        // If dp[value] is still 0, it means we cannot make change for the value
+        return dp[value];
+    }    
+}
+
+
+	
+	

@@ -1,0 +1,64 @@
+/*
+Problem statement
+You are given a binary search tree (BST) and a key value 'K'. You need to delete the node with value 'K'. It is guaranteed that a node has the value 'K'.
+
+A binary search tree (BST), also called an ordered or sorted binary tree, is a rooted binary tree whose internal nodes each store a key greater than all the keys in the node's left subtree and less than those in its right subtree.
+
+Note:
+All the elements of the binary search tree are unique.
+
+
+*/
+
+
+
+import java.util.* ;
+import java.io.*; 
+/**********************************************************
+Following is the Binary Tree Node class structure
+
+class BinaryTreeNode<T> {
+	T data;
+	BinaryTreeNode<T> left;
+	BinaryTreeNode<T> right;
+	
+	public BinaryTreeNode(T data) {
+		this.data = data;
+	}
+}
+
+***********************************************************/
+
+public class Solution {
+    public static BinaryTreeNode<Integer> bstDelete(BinaryTreeNode<Integer> root, int key) {
+        if (root == null) {
+            return root;
+		}
+
+        if (key < root.data) {
+            root.left = bstDelete(root.left, key);
+        } else if (key > root.data) {
+            root.right = bstDelete(root.right, key);
+        } else {
+            if (root.left == null) {
+                return root.right;
+            } else if (root.right == null) {
+                return root.left;
+            }
+
+            root.data = minValue(root.right);
+            root.right = bstDelete(root.right, root.data);
+        }
+        return root;
+    }
+
+    public static int minValue(BinaryTreeNode<Integer> root) {
+        int minValue = root.data;
+        while (root.left != null) {
+            minValue = Math.min(minValue, root.left.data);
+            root = root.left;
+        }
+        return minValue;
+    }
+
+}

@@ -1,0 +1,33 @@
+/*
+Problem statement
+You are given a list of coupons containing 'N' coupon numbers. Your task is to pick up the coupons from the list. You can pick up coupons consecutively. To use any coupons, you have to pick the same number at least two times. Your task is to find the minimum number of coupons you have to pick to avail yourself any coupon. Return -1 if it’s not possible to avail any coupons.
+
+For example:
+You are given,’coupons’ = [1, 2, 3, 4, 5, 3, 6], here you can pick up coupons that are [3, 4, 5, 3] and avail coupon number ‘3’, The total number of coupons picked up are 4. Hence the answer is 4.
+
+
+*/
+
+
+
+import java.util.HashMap;
+
+public class Solution {
+
+	public static int pickCoupons(int n, int[] coupons) {
+	 	
+		HashMap<Integer, Integer> map = new HashMap<>();
+		int minSubLen = Integer.MAX_VALUE;
+
+		for(int i=0; i<coupons.length; i++) {
+			if(map.containsKey(coupons[i])) {
+				minSubLen = Math.min(minSubLen, i - map.get(coupons[i]));
+			}
+
+			map.put(coupons[i], i);
+		}
+		
+		return minSubLen == Integer.MAX_VALUE ? -1 : minSubLen + 1;
+	}
+
+}

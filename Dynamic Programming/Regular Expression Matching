@@ -1,0 +1,50 @@
+/*
+Problem statement
+Given an input string 'S' and a pattern 'P', implement a regular expression matching with the support of two special characters ‘.’ (dot) and ‘*’(asterisk) where
+
+1. ‘.’ matches to any single character.
+2. ‘*’ matches to zero or more of the preceding element.
+If the input string 'S' matches the pattern 'P', then return true else, return false.
+
+Note:
+1. You have to match the entire string with the pattern given.
+2. Both the strings, 'S' and 'P' contain only lower-case alphabets.
+3. Only the pattern will contain additional characters ‘*’ and ‘.’ along with alphabets.
+
+
+*/
+
+
+
+import java.util.*;
+public class Solution 
+{
+	public static Boolean[][] dp;
+
+    public static Boolean isMatch(String s, String p) {
+        dp = new Boolean[s.length() + 1][p.length() + 1];
+        return matchUtil(s, p, 0, 0);
+    }
+
+    public static boolean matchUtil(String s, String p, int i, int j) {
+        if (i >= s.length() && j >= p.length()) {
+            return true;
+        }
+        if (j >= p.length()) {
+            return false;
+        }
+        if (dp[i][j] != null) {
+            return dp[i][j];
+        }
+
+        boolean match = (i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'));
+
+        if (j + 1 < p.length() && p.charAt(j + 1) == '*') {
+            dp[i][j] = (match && matchUtil(s, p, i + 1, j)) || matchUtil(s, p, i, j + 2);
+        } else {
+            dp[i][j] = match && matchUtil(s, p, i + 1, j + 1);
+        }
+
+        return dp[i][j];
+    }
+}

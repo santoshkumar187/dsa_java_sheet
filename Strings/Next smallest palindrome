@@ -1,0 +1,77 @@
+
+/*
+--
+- convert to StringBuilder
+- inti bool to false, int carry
+- travelse for len+1/2 to len
+	check if i th char is less than len-i-1 th char
+		setCharAt i to len - i - 1.
+		travelse from i to len{
+			set j to len - j - 1.
+		}
+		change bool to true
+		break;
+	else break.
+
+- if bool then return s.toString()
+- set carry to 1
+- travsal from len-1/2 to len {
+	take sum and add carry to it
+	check if sum = 10 {
+		set i to 0, and carry = 1;
+	} else {
+		set i to sum and carry = 0 and break;
+	}
+}
+
+- if carry is 1 then insert 1 to 0th postion
+- travsal len+1/2 to len {
+	set i to len-i-1
+}
+- return sb.toString();
+--
+*/
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static String nextLargestPalindrome(String number, int length) {
+		int carry;
+		boolean solved = false;
+		StringBuilder sb = new StringBuilder(number);
+		for(int i=(length+1)/2; i<length; i++) {
+			if((int)number.charAt(i) < (int)number.charAt(length - i -1)) {
+				sb.setCharAt(i, number.charAt(length - i -1));
+				for(int j=i; j<length; j++) {
+					sb.setCharAt(j, number.charAt(length - j - 1));
+				}
+				solved = true;
+				break;
+			} else if ((int)number.charAt(i) > (int)number.charAt(length - i - 1)) {
+				break;
+			}
+		}
+		if(solved) {
+		return sb.toString();
+		}
+
+		carry = 1;
+		for(int i=(length-1)/2; i>=0; i--) {
+			int sum = number.charAt(i) - '0' + carry; //or int sum = (int)number.charAt(i) + carry;
+			if(sum == 10) {
+				sb.setCharAt(i, '0');
+				carry = 1;
+			} else {
+				sb.setCharAt(i, (char) (sum + '0'));
+				carry = 0;
+				break;
+			}
+		}
+		if(carry == 1) {
+			sb.insert(0, '1');
+		}
+		for (int i = (length + 1) / 2; i < sb.length(); i++) {
+        	sb.setCharAt(i, sb.charAt(sb.length() - i - 1));
+    	}
+		return sb.toString();
+	}
+}

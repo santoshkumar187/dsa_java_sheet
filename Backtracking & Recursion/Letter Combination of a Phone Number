@@ -1,0 +1,35 @@
+/*
+Problem statement
+Given a string S containing digits from 2 to 9 inclusive. Your task is to find all possible letter combinations that the number could represent.
+
+A mapping from Digits to Letters (just like in Nokia 1100) is shown below. Note that 1 does not map to any letter.
+
+
+*/
+
+
+
+import java.util.ArrayList;
+public class Solution 
+{
+    public static ArrayList<String> combinations(String s){
+        String letters[] = new String[]{
+        "","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"
+        };
+	    ArrayList<String> result = new ArrayList<>();
+		helper(result, letters, s, 0, new StringBuilder());
+     	return result;
+    }
+    public static void helper(ArrayList<String> result,String letters[],String s,int index,StringBuilder temp){
+    if (index == s.length()) {
+        result.add(temp.toString());
+        return;
+    }
+
+    for (int i = 0; i <letters[s.charAt(index)-'1'].length() ; i++) {
+        char ch = letters[s.charAt(index)-'1'].charAt(i);
+    	helper(result, letters, s, index+1, temp.append(ch));
+		temp.deleteCharAt(temp.length()-1);
+      }
+    }
+}

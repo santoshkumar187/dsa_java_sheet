@@ -1,0 +1,47 @@
+/*
+Problem statement:
+You have been given a binary tree of integers. You are supposed to find the left view of the binary tree. The left view of a binary tree is the set of all nodes that are visible when the binary tree is viewed from the left side.
+
+Example:
+The left view of the above binary tree is  {5, 7, 14, 25}.
+
+
+*/
+
+
+
+import java.util.*;
+
+// Define the TreeNode class
+/*
+class TreeNode<T> {
+    T data;
+    TreeNode<T> left;
+    TreeNode<T> right;
+
+    public TreeNode(T data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+*/
+
+public class Solution {
+    public static ArrayList<Integer> getLeftView(TreeNode<Integer> root) {
+        ArrayList<Integer> ans = new ArrayList<>();
+        procLeftView(root, ans, 0);
+        return ans;
+    }
+
+    private static void procLeftView(TreeNode<Integer> root, ArrayList<Integer> ans, int level) {
+        if (root == null) {
+            return;
+        }
+        if (level == ans.size()) {
+            ans.add(root.data);
+        }
+        procLeftView(root.left, ans, level + 1);
+        procLeftView(root.right, ans, level + 1);
+    }
+}

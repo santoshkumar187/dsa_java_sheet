@@ -1,0 +1,68 @@
+/*
+
+Problem statement
+You have been given a square chessboard of size ‘N x N’. The position coordinates of the Knight and the position coordinates of the target are also given.
+
+Your task is to find out the minimum steps a Knight will take to reach the target position.
+
+Example:
+knightPosition: {3,4}
+targetPosition: {2,1}
+
+The knight can move from position (3,4) to positions (1,3), (2,2) and (4,2). Position (4,2) is selected and the ‘stepCount’ becomes 1. From position (4,2), the knight can directly jump to the position (2,1) which is the target point and ‘stepCount’ becomes 2 which is the final answer. 
+Note:
+1. The coordinates are 1 indexed. So, the bottom left square is (1,1) and the top right square is (N, N).
+2. The knight can make 8 possible moves as given in figure 1.
+3. A Knight moves 2 squares in one direction and 1 square in the perpendicular direction (or vice-versa).
+
+
+*/
+
+
+
+import java.util.*;
+
+// class Pair {
+// 	int first;
+// 	int second;
+
+// 	public Pair(int first, int second) {
+// 		this.first = first;
+// 		this.second = second;
+// 	}
+// }
+
+public class Solution {
+	public static int minSteps(Pair knightPosition, Pair targetPosition, int size) {
+		Queue<Pair> positions = new LinkedList<>();
+		int moves = 0;
+		int[] dx = {2, 2, -2, -2, 1, 1, -1, -1};
+		int[] dy = {1, -1, 1, -1, 2, -2, 2, -2};
+
+		int[][] store = new int[size + 1][size + 1];
+		store[knightPosition.first][knightPosition.second] = 1;
+
+		positions.add(knightPosition);
+
+		while (!positions.isEmpty()) {
+			int currSize = positions.size();
+			for (int i = 0; i < currSize; i++) {
+				Pair currPos = positions.poll();
+				if (currPos.first == targetPosition.first && currPos.second == targetPosition.second) {
+					return moves;
+				}
+
+				for (int j = 0; j < 8; j++) {
+					int nextDx = currPos.first + dx[j];
+					int nextDy = currPos.second + dy[j];
+					if (nextDx > 0 && nextDx <= size && nextDy > 0 && nextDy <= size && store[nextDx][nextDy] == 0) {
+						store[nextDx][nextDy] = 1;
+						positions.add(new Pair(nextDx, nextDy));
+					}
+				}
+			}
+			moves++;
+		}
+		return -1; // Return -1 if the target position is unreachable
+	}
+}

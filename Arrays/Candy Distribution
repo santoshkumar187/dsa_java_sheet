@@ -1,0 +1,122 @@
+/*
+
+
+Problem statement
+You are given an integer ‘N’ and an array ‘A’ of size ‘N’ containing positive integers.
+
+You have ‘N’ friends, and you want to give each of them some candies. The ‘ith’ friend will be happy if they receive at least ‘A[i]’ candies. You want to distribute candies among your friends to fulfill the following two conditions.
+
+No two friends have the same number of candies.
+
+Every friend is happy.
+
+Your task is to find the minimum candies required for distributing such that both conditions are met. If no distribution fulfills both given conditions, report it.
+
+Example :
+‘N’ = 5, ‘A’ = [3, 3, 2, 5, 1]
+If we distribute candies in the following manner [4, 3, 2, 5, 1],
+Each friend will be happy as they have at least received ‘A[i]’ candies, and no two friends got the same number of candies.
+Hence, the answer is (4 + 3 + 2 + 5 + 1) = 15. It’s guaranteed that this is the minimum number of candies required.
+
+
+*/
+
+
+
+import java.util.*;
+
+public class Solution {
+    // static long candyDistribution(int n, ArrayList<Integer> a) {
+    //     // Use a HashSet for fast look-up
+    //     HashSet<Integer> usedCandies = new HashSet<>();
+    //     Collections.sort(a);
+    //     long sum = 0;
+        
+    //     for (int i = 0; i < n; i++) {
+    //         int candies = a.get(i);
+    //         // Increment candies until we find an unused value
+    //         while (usedCandies.contains(candies)) {
+    //             candies++;
+    //         }
+    //         // Add the new candy count to the set and update sum
+    //         usedCandies.add(candies);
+    //         sum += candies;
+    //     }
+        
+    //     return sum;
+    // }
+
+
+    static long candyDistribution(int n, ArrayList<Integer> a) {
+       Collections.sort(a);
+          long ans=0,prev=0;
+        
+        for(int i=0;i<a.size();i++){
+            // Storing the previous will tell whether the current element is greater or not
+            // if greater just add it to ans
+            // if equal jus increase prev by 1 and then add it
+            if(a.get(i)>prev){
+                prev=a.get(i);
+            }else{
+                prev++;             
+            }
+            ans+=prev;
+        }
+        return ans;
+    }
+    
+}
+
+
+// ---------------------------------------------------------------------------------------
+
+/*
+There are n children standing in a line. Each child is assigned a rating value given in the integer array ratings.
+
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+Return the minimum number of candies you need to have to distribute the candies to the children.
+
+ 
+
+Example 1:
+
+Input: ratings = [1,0,2]
+Output: 5
+Explanation: You can allocate to the first, second and third child with 2, 1, 2 candies respectively.
+Example 2:
+
+Input: ratings = [1,2,2]
+Output: 4
+Explanation: You can allocate to the first, second and third child with 1, 2, 1 candies respectively.
+The third child gets 1 candy because it satisfies the above two conditions.
+ 
+*/
+
+class Solution {
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int[] left = new int[n]; Arrays.fill(left, 1);
+        int[] right = new int[n]; Arrays.fill(right, 1);
+
+        for(int i=1; i<n; i++) {
+            if(ratings[i-1] > ratings[i]) {
+                left[i-1]++;
+            }
+        }
+        for(int i=n-2; i>=0; i--) {
+            if(ratings[i+1] > ratings[i]) {
+                right[i+1]++;
+            }
+        }
+
+        int sum = 0;
+        for(int i=0; i<n; i++) {
+            sum += Math.max(left[i], right[i]);
+        }
+
+        return sum;
+    }
+}

@@ -1,0 +1,76 @@
+/*
+
+Problem statement
+You are given a multi-level linked list of 'N' nodes, each node has a next and child pointer which may or may not point to a separate node. Flatten the multi-level linked list into a singly linked list. You need to return the head of the updated linked list.
+
+Example:
+Flatten :
+All the different rows are merged into a single row.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+1 <= T <= 10
+0 <= N <= 10^4
+1 <= data <= 10^9
+
+Time Limit : 1 sec
+Sample Input 1 :
+1
+1 -1 2 -1 3 -1 4 -1 -1
+Sample Output 1 :
+1 2 3 4
+
+-------------------------
+*/
+
+
+
+import java.util.* ;
+
+/*******************************************************
+
+	Following is the Node class structure
+
+	class Node {
+	    int data;
+	    Node next;
+	    Node child;
+	    
+	    public Node(int data) {
+	        this.data = data;
+	    }
+	}
+
+*******************************************************/
+
+public class Solution {
+    
+    public static Node flattenMultiLinkedList(Node head) {
+        if(head == null) {
+			return null;
+		}
+
+		Node dummy = new Node(0);
+		Node curr = dummy;
+
+		Stack<Node> st = new Stack<>();
+		st.push(head);
+
+		while(!st.isEmpty()) {
+			Node temp = st.pop();
+			curr.next = temp;
+			curr = curr.next;
+
+			if(temp.next != null) {
+				st.push(temp.next);
+			}
+
+			if(temp.child != null) {
+				st.push(temp.child);
+				temp.child = null;
+			}
+		}
+
+		return dummy.next;
+    }
+
+}
